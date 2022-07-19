@@ -112,6 +112,19 @@ def add_fav_planet(planets_id):
           
         return jsonify({"mensaje": "error"})  
 
+@app.route('/favorite/planets/<int:planets_id>', methods= ['DELETE'])
+def delete_favorite_planet(planets_id):
+    favorite = Favorite.query.filter_by(favorite_planets = planets_id).first()
+    db.session.delete(favorite)
+    db.session.commit()
+    return jsonify(({'favorite': 'Se ha eliminado el planeta favorito con id: ' + str(favorite.id)})), 200
+
+@app.route('/favorite/people/<int:people_id>', methods= ['DELETE'])
+def delete_favorite_people(people_id):
+    favorite = Favorite.query.filter_by(favorite_char = people_id).first()
+    db.session.delete(favorite)
+    db.session.commit()
+    return jsonify(({'favorite': 'Se ha eliminado el character favorito con id: ' + str(favorite.id)})), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
